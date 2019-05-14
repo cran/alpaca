@@ -2,14 +2,14 @@
 #include <RcppArmadillo.h>
 
 
-// [[Rcpp::export(name = "get.alpha")]]
-arma::vec GetAlpha(const arma::vec &kD_alpha,
+// [[Rcpp::export(name = "getAlpha")]]
+arma::vec GetAlpha(const arma::vec &kpi,
                    const arma::ivec &klvls_k,
                    const arma::imat &kA,
                    const arma::imat &kB,
                    const double ktol) {
   // Auxiliary variables
-  const int kn = kD_alpha.n_rows;
+  const int kn = kpi.n_rows;
   const int kK = klvls_k.n_rows;
   
   // Start alternating between normal equations
@@ -30,7 +30,7 @@ arma::vec GetAlpha(const arma::vec &kD_alpha,
       
       // Compute adjusted dependent variable
       int start_k = 0;
-      arma::vec b_dots = kD_alpha;
+      arma::vec b_dots = kpi;
       for (int kk = 0 ; kk < kK ; ++kk) {
         const int kend_k = start_k + klvls_k(kk) - 1;
         if (k != kk) {

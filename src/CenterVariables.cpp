@@ -2,8 +2,8 @@
 #include <RcppArmadillo.h>
 
 
-// [[Rcpp::export(name = "pseudo.demeaning")]]
-arma::mat PseudoDemeaning(const arma::mat &kV,
+// [[Rcpp::export(name = "centerVariables")]]
+arma::mat CenterVariables(const arma::mat &kV,
                           const arma::vec &kw,
                           const arma::imat &kA,
                           const arma::imat &kB,
@@ -17,7 +17,7 @@ arma::mat PseudoDemeaning(const arma::mat &kV,
   // Halperin projections (default)
   arma::mat M(kn, kp);
   for (int p = 0 ; p < kp ; ++p) {
-    // Pseudo demean variable 'kv'
+    // Center variable each variable
     arma::vec Mv = kV.col(p);
     double crit;
     do {
@@ -38,7 +38,7 @@ arma::mat PseudoDemeaning(const arma::mat &kV,
           w_k(i) = kw(kb);
         }
         
-        // Pseudo-demean sorted data
+        // Centering sorted data
         arma::vec fac_k(klvls_k(k));
         int i = 0;
         for (int j = 0 ; j < klvls_k(k) ; ++j) {
@@ -66,6 +66,6 @@ arma::mat PseudoDemeaning(const arma::mat &kV,
     M.col(p) = Mv;
   }
   
-  // Return matrix with demeaned variable
+  // Return matrix with centered variables
   return M;
 }

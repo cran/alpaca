@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>Replicating an Empirical Example of International Trade</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Replicating an Empirical Example of International Trade</h1>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>In econometrics, fixed effects models are popular to control for unobserved heterogeneity in data sets with a panel structure. In non-linear models this is usually done by including a dummy variable for each level of a fixed effects category. This approach can quickly become infeasible if the number of levels and/or fixed effects categories increases (either due to memory or time limitations).</p>
+<p>One well known example where those limits take place are structural gravity models of trade. In order to demonstrate the capablilities of <code>feglm()</code> we replicate parts of <span class="citation">Larch et al. (2019)</span> who themselves re-asseses <span class="citation">Glick and Rose (2016)</span>. Our example is based on a panel data set of 2,973,168 bilateral trade flows. Estimating a theory consistent gravity model with this data set requires to specify a three-way error component with 56,608 levels.</p>
+</div>
+<div id="data-preparation" class="section level2">
+<h2>Data preparation</h2>
+<p>The data set is available either from <a href="http://faculty.haas.berkeley.edu/arose/RecRes.htm">Andrew Rose’s website</a> or from <a href="https://www.sciencedirect.com/science/article/pii/S0014292116300630#ec0005">sciencedirect</a>. We use the same variable names as <span class="citation">Glick and Rose (2016)</span> such that we are able to compare our summary statistics with the ones provided in their <em>Stata</em> log-files.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># Import the data set</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(haven)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(data.table)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">cudata &lt;-<span class="st"> </span><span class="kw">read_dta</span>(<span class="st">&quot;dataaxj1.dta&quot;</span>)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">cudata &lt;-<span class="st"> </span><span class="kw">as.data.table</span>(cudata)</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co"># Subsetting relevant variables</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">var.nms &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;exp1to2&quot;</span>, <span class="st">&quot;custrict11&quot;</span>, <span class="st">&quot;ldist&quot;</span>, <span class="st">&quot;comlang&quot;</span>, <span class="st">&quot;border&quot;</span>, <span class="st">&quot;regional&quot;</span>,</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">             <span class="st">&quot;comcol&quot;</span>, <span class="st">&quot;curcol&quot;</span>, <span class="st">&quot;colony&quot;</span>, <span class="st">&quot;comctry&quot;</span>, <span class="st">&quot;cuwoemu&quot;</span>, <span class="st">&quot;emu&quot;</span>, <span class="st">&quot;cuc&quot;</span>,</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">             <span class="st">&quot;cty1&quot;</span>, <span class="st">&quot;cty2&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;pairid&quot;</span>)</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">cudata &lt;-<span class="st"> </span>cudata[, ..var.nms]</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co"># Generate identifiers required for structural gravity</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14">cudata[, pairid <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">factor</span>(pairid)]</a>
+<a class="sourceLine" id="cb1-15" data-line-number="15">cudata[, exp.time <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">interaction</span>(cty1, year)]</a>
+<a class="sourceLine" id="cb1-16" data-line-number="16">cudata[, imp.time <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">interaction</span>(cty2, year)]</a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co"># Generate dummies for disaggregated currency unions</span></a>
+<a class="sourceLine" id="cb1-19" data-line-number="19">cudata[, cuau <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">as.integer</span>(cuc <span class="op">==</span><span class="st"> &quot;au&quot;</span>)]</a>
+<a class="sourceLine" id="cb1-20" data-line-number="20">cudata[, cube <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">as.integer</span>(cuc <span class="op">==</span><span class="st"> &quot;be&quot;</span>)]</a>
+<a class="sourceLine" id="cb1-21" data-line-number="21">cudata[, cuca <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">as.integer</span>(cuc <span class="op">==</span><span class="st"> &quot;ca&quot;</span>)]</a>
+<a class="sourceLine" id="cb1-22" data-line-number="22">cudata[, cucf <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">as.integer</span>(cuc <span class="op">==</span><span class="st"> &quot;cf&quot;</span>)]</a>
+<a class="sourceLine" id="cb1-23" data-line-number="23">cudata[, cucp <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">as.integer</span>(cuc <span class="op">==</span><span class="st"> &quot;cp&quot;</span>)]</a>
+<a class="sourceLine" id="cb1-24" data-line-number="24">cudata[, cudk <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">as.integer</span>(cuc <span class="op">==</span><span class="st"> &quot;dk&quot;</span>)]</a>
+<a class="sourceLine" id="cb1-25" data-line-number="25">cudata[, cuea <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">as.integer</span>(cuc <span class="op">==</span><span class="st"> &quot;ea&quot;</span>)]</a>
+<a class="sourceLine" id="cb1-26" data-line-number="26">cudata[, cuec <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">as.integer</span>(cuc <span class="op">==</span><span class="st"> &quot;ec&quot;</span>)]</a>
+<a class="sourceLine" id="cb1-27" data-line-number="27">cudata[, cuem <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">as.integer</span>(cuc <span class="op">==</span><span class="st"> &quot;em&quot;</span>)]</a>
+<a class="sourceLine" id="cb1-28" data-line-number="28">cudata[, cufr <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">as.integer</span>(cuc <span class="op">==</span><span class="st"> &quot;fr&quot;</span>)]</a>
+<a class="sourceLine" id="cb1-29" data-line-number="29">cudata[, cugb <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">as.integer</span>(cuc <span class="op">==</span><span class="st"> &quot;gb&quot;</span>)]</a>
+<a class="sourceLine" id="cb1-30" data-line-number="30">cudata[, cuin <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">as.integer</span>(cuc <span class="op">==</span><span class="st"> &quot;in&quot;</span>)]</a>
+<a class="sourceLine" id="cb1-31" data-line-number="31">cudata[, cuma <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">as.integer</span>(cuc <span class="op">==</span><span class="st"> &quot;ma&quot;</span>)]</a>
+<a class="sourceLine" id="cb1-32" data-line-number="32">cudata[, cuml <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">as.integer</span>(cuc <span class="op">==</span><span class="st"> &quot;ml&quot;</span>)]</a>
+<a class="sourceLine" id="cb1-33" data-line-number="33">cudata[, cunc <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">as.integer</span>(cuc <span class="op">==</span><span class="st"> &quot;nc&quot;</span>)]</a>
+<a class="sourceLine" id="cb1-34" data-line-number="34">cudata[, cunz <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">as.integer</span>(cuc <span class="op">==</span><span class="st"> &quot;nz&quot;</span>)]</a>
+<a class="sourceLine" id="cb1-35" data-line-number="35">cudata[, cupk <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">as.integer</span>(cuc <span class="op">==</span><span class="st"> &quot;pk&quot;</span>)]</a>
+<a class="sourceLine" id="cb1-36" data-line-number="36">cudata[, cupt <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">as.integer</span>(cuc <span class="op">==</span><span class="st"> &quot;pt&quot;</span>)]</a>
+<a class="sourceLine" id="cb1-37" data-line-number="37">cudata[, cusa <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">as.integer</span>(cuc <span class="op">==</span><span class="st"> &quot;sa&quot;</span>)]</a>
+<a class="sourceLine" id="cb1-38" data-line-number="38">cudata[, cusp <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">as.integer</span>(cuc <span class="op">==</span><span class="st"> &quot;sp&quot;</span>)]</a>
+<a class="sourceLine" id="cb1-39" data-line-number="39">cudata[, cuua <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">as.integer</span>(cuc <span class="op">==</span><span class="st"> &quot;ua&quot;</span>)]</a>
+<a class="sourceLine" id="cb1-40" data-line-number="40">cudata[, cuus <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">as.integer</span>(cuc <span class="op">==</span><span class="st"> &quot;us&quot;</span>)]</a>
+<a class="sourceLine" id="cb1-41" data-line-number="41">cudata[, cuwa <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">as.integer</span>(cuc <span class="op">==</span><span class="st"> &quot;wa&quot;</span>)]</a>
+<a class="sourceLine" id="cb1-42" data-line-number="42">cudata[, cuwoo <span class="op">:</span><span class="er">=</span><span class="st"> </span>custrict11]</a>
+<a class="sourceLine" id="cb1-43" data-line-number="43">cudata[cuc <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;em&quot;</span>, <span class="st">&quot;au&quot;</span>, <span class="st">&quot;cf&quot;</span>, <span class="st">&quot;ec&quot;</span>, <span class="st">&quot;fr&quot;</span>, <span class="st">&quot;gb&quot;</span>, <span class="st">&quot;in&quot;</span>, <span class="st">&quot;us&quot;</span>), cuwoo <span class="op">:</span><span class="er">=</span><span class="st"> </span>0L]</a>
+<a class="sourceLine" id="cb1-44" data-line-number="44"></a>
+<a class="sourceLine" id="cb1-45" data-line-number="45"><span class="co"># Set missing trade flows to zero</span></a>
+<a class="sourceLine" id="cb1-46" data-line-number="46">cudata[<span class="kw">is.na</span>(exp1to2), exp1to2 <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="fl">0.0</span>]</a></code></pre></div>
+</div>
+<div id="some-replications" class="section level2">
+<h2>Some replications</h2>
+<p>After preparing the data, we show how to replicate column 3 of table 2 in <span class="citation">Larch et al. (2019)</span>. In addition to coefficients and robust standard errors, the authors also report standard errors clustered by exporter, importer, and time.</p>
+<p>If we want <code>feglm()</code> to report standard errors that are clustered by variables, which are not already part of the model itself, we have to additionally provide them using the third part of the <code>formula</code> interface. In this example, we have to additionally add identifiers for exporters (<code>cty1</code>), importers (<code>cty2</code>), and time (<code>year</code>).</p>
+<p>First we report robust standard errors indicated by the option <code>&quot;sandwich&quot;</code> in <code>summary()</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">mod &lt;-<span class="st"> </span><span class="kw">feglm</span>(exp1to2 <span class="op">~</span><span class="st"> </span>emu <span class="op">+</span><span class="st"> </span>cuwoo <span class="op">+</span><span class="st"> </span>cuau <span class="op">+</span><span class="st"> </span>cucf <span class="op">+</span><span class="st"> </span>cuec <span class="op">+</span><span class="st"> </span>cufr <span class="op">+</span><span class="st"> </span>cugb <span class="op">+</span><span class="st"> </span>cuin <span class="op">+</span><span class="st"> </span>cuus <span class="op">+</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="st">               </span>regional <span class="op">+</span><span class="st"> </span>curcol <span class="op">|</span><span class="st"> </span>exp.time <span class="op">+</span><span class="st"> </span>imp.time <span class="op">+</span><span class="st"> </span>pairid <span class="op">|</span><span class="st"> </span>cty1 <span class="op">+</span><span class="st"> </span>cty2 <span class="op">+</span><span class="st"> </span>year, cudata,</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">             <span class="dt">family =</span> <span class="kw">poisson</span>())</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw">summary</span>(mod, <span class="st">&quot;sandwich&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">## poisson - log link</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">## </span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">## exp1to2 ~ emu + cuwoo + cuau + cucf + cuec + cufr + cugb + cuin + </span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">##     cuus + regional + curcol | exp.time + imp.time + pairid | </span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">##     cty1 + cty2 + year</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">## </span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">## Estimates:</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">##            Estimate Std. error z value Pr(&gt; |z|)    </span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">## emu       0.0488950  0.0006057  80.722   &lt; 2e-16 ***</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">## cuwoo     0.7659882  0.0047822 160.176   &lt; 2e-16 ***</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">## cuau      0.3844686  0.0562134   6.839  7.95e-12 ***</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">## cucf     -0.1256085  0.0231247  -5.432  5.58e-08 ***</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">## cuec     -0.8773179  0.0234656 -37.387   &lt; 2e-16 ***</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">## cufr      2.0957255  0.0048882 428.730   &lt; 2e-16 ***</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">## cugb      1.0599574  0.0021330 496.925   &lt; 2e-16 ***</span></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">## cuin      0.1697449  0.0068729  24.698   &lt; 2e-16 ***</span></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">## cuus      0.0183233  0.0025739   7.119  1.09e-12 ***</span></a>
+<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">## regional  0.1591810  0.0003433 463.662   &lt; 2e-16 ***</span></a>
+<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co">## curcol    0.3868821  0.0022466 172.208   &lt; 2e-16 ***</span></a>
+<a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">## ---</span></a>
+<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co">## Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</span></a>
+<a class="sourceLine" id="cb3-22" data-line-number="22"><span class="co">## </span></a>
+<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">## residual deviance= 35830779,</span></a>
+<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">## null deviance= 2245707302,</span></a>
+<a class="sourceLine" id="cb3-25" data-line-number="25"><span class="co">## n= 1610165, l= [11227, 11277, 34104]</span></a>
+<a class="sourceLine" id="cb3-26" data-line-number="26"><span class="co">## </span></a>
+<a class="sourceLine" id="cb3-27" data-line-number="27"><span class="co">## ( 1363003 observation(s) deleted due to perfect classification )</span></a>
+<a class="sourceLine" id="cb3-28" data-line-number="28"><span class="co">## </span></a>
+<a class="sourceLine" id="cb3-29" data-line-number="29"><span class="co">## Number of Fisher Scoring Iterations: 13</span></a></code></pre></div>
+<p>We observe that roughly 1,4 million observations do not contribute to the identification of the structural parameters and we end up with roughly 1,6 million observations and 57,000 fixed effects.</p>
+<p>Replicating the clustered standard errors is straightforward. We simply have to change the option to <code>&quot;clustered&quot;</code> and provide <code>summary</code> with the requested cluster dimensions.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">summary</span>(mod, <span class="st">&quot;clustered&quot;</span>, <span class="dt">cluster =</span> <span class="op">~</span><span class="st"> </span>cty1 <span class="op">+</span><span class="st"> </span>cty2 <span class="op">+</span><span class="st"> </span>year)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co">## poisson - log link</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">## </span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">## exp1to2 ~ emu + cuwoo + cuau + cucf + cuec + cufr + cugb + cuin + </span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">##     cuus + regional + curcol | exp.time + imp.time + pairid | </span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">##     cty1 + cty2 + year</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">## </span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">## Estimates:</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">##          Estimate Std. error z value Pr(&gt; |z|)    </span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">## emu       0.04890    0.09455   0.517   0.60507    </span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">## cuwoo     0.76599    0.24933   3.072   0.00213 ** </span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">## cuau      0.38447    0.22355   1.720   0.08546 .  </span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">## cucf     -0.12561    0.35221  -0.357   0.72137    </span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">## cuec     -0.87732    0.29493  -2.975   0.00293 ** </span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">## cufr      2.09573    0.30625   6.843  7.75e-12 ***</span></a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">## cugb      1.05996    0.23766   4.460  8.19e-06 ***</span></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">## cuin      0.16974    0.30090   0.564   0.57267    </span></a>
+<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">## cuus      0.01832    0.05092   0.360   0.71898    </span></a>
+<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">## regional  0.15918    0.07588   2.098   0.03593 *  </span></a>
+<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">## curcol    0.38688    0.15509   2.495   0.01261 *  </span></a>
+<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">## ---</span></a>
+<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">## Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</span></a>
+<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">## </span></a>
+<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">## residual deviance= 35830779,</span></a>
+<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">## null deviance= 2245707302,</span></a>
+<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">## n= 1610165, l= [11227, 11277, 34104]</span></a>
+<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">## </span></a>
+<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="co">## ( 1363003 observation(s) deleted due to perfect classification )</span></a>
+<a class="sourceLine" id="cb5-28" data-line-number="28"><span class="co">## </span></a>
+<a class="sourceLine" id="cb5-29" data-line-number="29"><span class="co">## Number of Fisher Scoring Iterations: 13</span></a></code></pre></div>
+</div>
+<div id="testing-linear-restrictions" class="section level2">
+<h2>Testing linear restrictions</h2>
+<p>Our package is also compatible with <code>linearHypothesis()</code> of the <code>car</code> package. In the next example we show how to test if all currency union effects except being in the EMU are jointly different from zero using a Wald test based on a clustered covariance matrix.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">library</span>(car)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">cus &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;cuwoo&quot;</span>, <span class="st">&quot;cuau&quot;</span>, <span class="st">&quot;cucf&quot;</span>, <span class="st">&quot;cuec&quot;</span>, <span class="st">&quot;cufr&quot;</span>, <span class="st">&quot;cugb&quot;</span>, <span class="st">&quot;cuin&quot;</span>, <span class="st">&quot;cuus&quot;</span>)</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw">linearHypothesis</span>(mod, cus, <span class="dt">vcov. =</span> <span class="kw">vcov</span>(mod, <span class="st">&quot;clustered&quot;</span>, <span class="dt">cluster =</span> <span class="op">~</span><span class="st"> </span>cty1 <span class="op">+</span><span class="st"> </span>cty2 <span class="op">+</span><span class="st"> </span>year))</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co">## Linear hypothesis test</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">## </span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">## Hypothesis:</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">## cuwoo = 0</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">## cuau = 0</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">## cucf = 0</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">## cuec = 0</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">## cufr = 0</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">## cugb = 0</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">## cuin = 0</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">## cuus = 0</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">## </span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">## Model 1: restricted model</span></a>
+<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">## Model 2: exp1to2 ~ emu + cuwoo + cuau + cucf + cuec + cufr + cugb + cuin + </span></a>
+<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">##     cuus + regional + curcol | exp.time + imp.time + pairid | </span></a>
+<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">##     cty1 + cty2 + year</span></a>
+<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">## </span></a>
+<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="co">## Note: Coefficient covariance matrix supplied.</span></a>
+<a class="sourceLine" id="cb7-19" data-line-number="19"><span class="co">## </span></a>
+<a class="sourceLine" id="cb7-20" data-line-number="20"><span class="co">##   Df  Chisq Pr(&gt;Chisq)    </span></a>
+<a class="sourceLine" id="cb7-21" data-line-number="21"><span class="co">## 1                         </span></a>
+<a class="sourceLine" id="cb7-22" data-line-number="22"><span class="co">## 2  8 96.771  &lt; 2.2e-16 ***</span></a>
+<a class="sourceLine" id="cb7-23" data-line-number="23"><span class="co">## ---</span></a>
+<a class="sourceLine" id="cb7-24" data-line-number="24"><span class="co">## Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</span></a></code></pre></div>
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2>References</h2>
+<div id="refs" class="references">
+<div id="ref-gr16">
+<p>Glick, Reuven, and Andrew K. Rose. 2016. “Currency Unions and Trade: A Post-Emu Reassessment.” <em>European Economic Review</em> 87: 78–91.</p>
+</div>
+<div id="ref-lwyz19">
+<p>Larch, Mario, Joschka Wanner, Yoto V. Yotov, and Thomas Zylkin. 2019. “Currency Unions and Trade: A Ppml Re-Assessment with High-Dimensional Fixed Effects.” <em>Oxford Bulletin of Economics and Statistics</em> 81 (3): 487–510.</p>
+</div>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

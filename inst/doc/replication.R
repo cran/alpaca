@@ -1,0 +1,150 @@
+## ---- eval = FALSE-------------------------------------------------------
+#  # Import the data set
+#  library(haven)
+#  library(data.table)
+#  cudata <- read_dta("dataaxj1.dta")
+#  cudata <- as.data.table(cudata)
+#  
+#  # Subsetting relevant variables
+#  var.nms <- c("exp1to2", "custrict11", "ldist", "comlang", "border", "regional",
+#               "comcol", "curcol", "colony", "comctry", "cuwoemu", "emu", "cuc",
+#               "cty1", "cty2", "year", "pairid")
+#  cudata <- cudata[, ..var.nms]
+#  
+#  # Generate identifiers required for structural gravity
+#  cudata[, pairid := factor(pairid)]
+#  cudata[, exp.time := interaction(cty1, year)]
+#  cudata[, imp.time := interaction(cty2, year)]
+#  
+#  # Generate dummies for disaggregated currency unions
+#  cudata[, cuau := as.integer(cuc == "au")]
+#  cudata[, cube := as.integer(cuc == "be")]
+#  cudata[, cuca := as.integer(cuc == "ca")]
+#  cudata[, cucf := as.integer(cuc == "cf")]
+#  cudata[, cucp := as.integer(cuc == "cp")]
+#  cudata[, cudk := as.integer(cuc == "dk")]
+#  cudata[, cuea := as.integer(cuc == "ea")]
+#  cudata[, cuec := as.integer(cuc == "ec")]
+#  cudata[, cuem := as.integer(cuc == "em")]
+#  cudata[, cufr := as.integer(cuc == "fr")]
+#  cudata[, cugb := as.integer(cuc == "gb")]
+#  cudata[, cuin := as.integer(cuc == "in")]
+#  cudata[, cuma := as.integer(cuc == "ma")]
+#  cudata[, cuml := as.integer(cuc == "ml")]
+#  cudata[, cunc := as.integer(cuc == "nc")]
+#  cudata[, cunz := as.integer(cuc == "nz")]
+#  cudata[, cupk := as.integer(cuc == "pk")]
+#  cudata[, cupt := as.integer(cuc == "pt")]
+#  cudata[, cusa := as.integer(cuc == "sa")]
+#  cudata[, cusp := as.integer(cuc == "sp")]
+#  cudata[, cuua := as.integer(cuc == "ua")]
+#  cudata[, cuus := as.integer(cuc == "us")]
+#  cudata[, cuwa := as.integer(cuc == "wa")]
+#  cudata[, cuwoo := custrict11]
+#  cudata[cuc %in% c("em", "au", "cf", "ec", "fr", "gb", "in", "us"), cuwoo := 0L]
+#  
+#  # Set missing trade flows to zero
+#  cudata[is.na(exp1to2), exp1to2 := 0.0]
+
+## ---- eval = FALSE-------------------------------------------------------
+#  mod <- feglm(exp1to2 ~ emu + cuwoo + cuau + cucf + cuec + cufr + cugb + cuin + cuus +
+#                 regional + curcol | exp.time + imp.time + pairid | cty1 + cty2 + year, cudata,
+#               family = poisson())
+#  summary(mod, "sandwich")
+
+## ---- eval = FALSE-------------------------------------------------------
+#  ## poisson - log link
+#  ##
+#  ## exp1to2 ~ emu + cuwoo + cuau + cucf + cuec + cufr + cugb + cuin +
+#  ##     cuus + regional + curcol | exp.time + imp.time + pairid |
+#  ##     cty1 + cty2 + year
+#  ##
+#  ## Estimates:
+#  ##            Estimate Std. error z value Pr(> |z|)
+#  ## emu       0.0488950  0.0006057  80.722   < 2e-16 ***
+#  ## cuwoo     0.7659882  0.0047822 160.176   < 2e-16 ***
+#  ## cuau      0.3844686  0.0562134   6.839  7.95e-12 ***
+#  ## cucf     -0.1256085  0.0231247  -5.432  5.58e-08 ***
+#  ## cuec     -0.8773179  0.0234656 -37.387   < 2e-16 ***
+#  ## cufr      2.0957255  0.0048882 428.730   < 2e-16 ***
+#  ## cugb      1.0599574  0.0021330 496.925   < 2e-16 ***
+#  ## cuin      0.1697449  0.0068729  24.698   < 2e-16 ***
+#  ## cuus      0.0183233  0.0025739   7.119  1.09e-12 ***
+#  ## regional  0.1591810  0.0003433 463.662   < 2e-16 ***
+#  ## curcol    0.3868821  0.0022466 172.208   < 2e-16 ***
+#  ## ---
+#  ## Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+#  ##
+#  ## residual deviance= 35830779,
+#  ## null deviance= 2245707302,
+#  ## n= 1610165, l= [11227, 11277, 34104]
+#  ##
+#  ## ( 1363003 observation(s) deleted due to perfect classification )
+#  ##
+#  ## Number of Fisher Scoring Iterations: 13
+
+## ---- eval = FALSE-------------------------------------------------------
+#  summary(mod, "clustered", cluster = ~ cty1 + cty2 + year)
+
+## ---- eval = FALSE-------------------------------------------------------
+#  ## poisson - log link
+#  ##
+#  ## exp1to2 ~ emu + cuwoo + cuau + cucf + cuec + cufr + cugb + cuin +
+#  ##     cuus + regional + curcol | exp.time + imp.time + pairid |
+#  ##     cty1 + cty2 + year
+#  ##
+#  ## Estimates:
+#  ##          Estimate Std. error z value Pr(> |z|)
+#  ## emu       0.04890    0.09455   0.517   0.60507
+#  ## cuwoo     0.76599    0.24933   3.072   0.00213 **
+#  ## cuau      0.38447    0.22355   1.720   0.08546 .
+#  ## cucf     -0.12561    0.35221  -0.357   0.72137
+#  ## cuec     -0.87732    0.29493  -2.975   0.00293 **
+#  ## cufr      2.09573    0.30625   6.843  7.75e-12 ***
+#  ## cugb      1.05996    0.23766   4.460  8.19e-06 ***
+#  ## cuin      0.16974    0.30090   0.564   0.57267
+#  ## cuus      0.01832    0.05092   0.360   0.71898
+#  ## regional  0.15918    0.07588   2.098   0.03593 *
+#  ## curcol    0.38688    0.15509   2.495   0.01261 *
+#  ## ---
+#  ## Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+#  ##
+#  ## residual deviance= 35830779,
+#  ## null deviance= 2245707302,
+#  ## n= 1610165, l= [11227, 11277, 34104]
+#  ##
+#  ## ( 1363003 observation(s) deleted due to perfect classification )
+#  ##
+#  ## Number of Fisher Scoring Iterations: 13
+
+## ---- eval = FALSE-------------------------------------------------------
+#  library(car)
+#  cus <- c("cuwoo", "cuau", "cucf", "cuec", "cufr", "cugb", "cuin", "cuus")
+#  linearHypothesis(mod, cus, vcov. = vcov(mod, "clustered", cluster = ~ cty1 + cty2 + year))
+
+## ---- eval = FALSE-------------------------------------------------------
+#  ## Linear hypothesis test
+#  ##
+#  ## Hypothesis:
+#  ## cuwoo = 0
+#  ## cuau = 0
+#  ## cucf = 0
+#  ## cuec = 0
+#  ## cufr = 0
+#  ## cugb = 0
+#  ## cuin = 0
+#  ## cuus = 0
+#  ##
+#  ## Model 1: restricted model
+#  ## Model 2: exp1to2 ~ emu + cuwoo + cuau + cucf + cuec + cufr + cugb + cuin +
+#  ##     cuus + regional + curcol | exp.time + imp.time + pairid |
+#  ##     cty1 + cty2 + year
+#  ##
+#  ## Note: Coefficient covariance matrix supplied.
+#  ##
+#  ##   Df  Chisq Pr(>Chisq)
+#  ## 1
+#  ## 2  8 96.771  < 2.2e-16 ***
+#  ## ---
+#  ## Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+

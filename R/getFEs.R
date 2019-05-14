@@ -16,7 +16,8 @@
 #' tol ||\boldsymbol{\alpha}_{i - 1}||_{2}}{||\Delta \alpha|| < tol ||\alpha_old||}.
 #' Default is \code{1.0e-08}.
 #' @return
-#' The function \code{getFEs} returns a named vector of estimated fixed effects.
+#' The function \code{\link{getFEs}} returns a named list containing named vectors of estimated 
+#' fixed effects.
 #' @references
 #' Gaure, S. (n. d.). "Multicollinearity, identification, and estimable 
 #' functions". Unpublished.
@@ -26,26 +27,43 @@
 #' @seealso
 #' \code{\link{feglm}}
 #' @export
-getFEs <- function(object, alpha.tol = 1.0e-08) {
+getFEs <- function(object = NULL, alpha.tol = 1.0e-08) {
   # Check validity of 'object'
-  if(!inherits(object, "feglm")) {
-    stop("'getFEs' called on a non-'feglm' object.")
+  if (is.null(object)) {
+    stop("'object' has to be specified.", call. = FALSE)
+  } else if (!inherits(object, "feglm")) {
+    stop("'getFEs' called on a non-'feglm' object.", call. = FALSE)
   }
+  
+  # Extract regressor matrix
+  X <- model.matrix(object[["formula"]], object[["data"]], rhs = 1L)[, - 1L, drop = FALSE]
+  nms.sp <- attr(X, "dimnames")[[2L]] # Saves memory
+  attr(X, "dimnames") <- NULL
   
   # Construct auxiliary matrix to flatten the fixed effects
   lvls.k <- object[["lvls.k"]]
   k.vars <- names(lvls.k)
-  fe <- object[["data"]][, k.vars, with = FALSE]
-  fe[, (k.vars) := lapply(.SD, function(x) as.integer(factor(x)) - 1L)]
-  A <- as.matrix(fe)
+  fe <- model.part(object[["formula"]], object[["data"]], rhs = 2L)
+  fe[, (k.vars) := lapply(.SD, as.integer)]
+  A <- as.matrix(fe) - 1L
   dimnames(A) <- NULL
-  B <- apply(A, 2L, order) - 1L
   rm(fe)
+  B <- apply(A, 2L, order) - 1L
   
-  # Recover fixed effects by alternating between normal equations
-  alpha <- as.vector(get.alpha(object[["D.alpha"]], lvls.k, A, B, alpha.tol))
-  names(alpha) <- object[["nms.fe"]]
+  # Recover fixed effects by alternating between the solution of normal equations
+  pi <- object[["eta"]] - as.vector(X %*% object[["coefficients"]])
+  alpha <- as.vector(getAlpha(pi, lvls.k, A, B, alpha.tol))
   
-  # Return estimates of the fixed effects
-  alpha
+  # Generate a list with one vector for each fixed effects category
+  k <- length(lvls.k)
+  tmp.var <- c(0L, cumsum(lvls.k))
+  fe <- vector("list", k)
+  for (i in seq.int(k)) {
+    fe[[i]] <- alpha[seq(tmp.var[[i]] + 1L, tmp.var[[i + 1L]])]
+    names(fe[[i]]) <- object[["nms.fe"]][[i]]
+  }
+  names(fe) <- k.vars
+  
+  # Return list of fixed effects estimates
+  fe
 }

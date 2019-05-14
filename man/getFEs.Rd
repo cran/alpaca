@@ -4,7 +4,7 @@
 \alias{getFEs}
 \title{Efficiently recover estimates of the fixed effects after fitting \code{feglm}}
 \usage{
-getFEs(object, alpha.tol = 1e-08)
+getFEs(object = NULL, alpha.tol = 1e-08)
 }
 \arguments{
 \item{object}{an object of class \code{"feglm"}.}
@@ -15,7 +15,8 @@ tol ||\boldsymbol{\alpha}_{i - 1}||_{2}}{||\Delta \alpha|| < tol ||\alpha_old||}
 Default is \code{1.0e-08}.}
 }
 \value{
-The function \code{getFEs} returns a named vector of estimated fixed effects.
+The function \code{\link{getFEs}} returns a named list containing named vectors of estimated 
+fixed effects.
 }
 \description{
 Recover estimates of the fixed effects by alternating between the normal equations of the fixed 

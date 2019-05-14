@@ -8,7 +8,7 @@
   3L), ...)
 }
 \arguments{
-\item{x}{an object of class \code{summary.feglm}.}
+\item{x}{an object of class \code{"summary.feglm"}.}
 
 \item{digits}{unsigned integer indicating the number of decimal places. Default is 
 \code{max(3L, getOption("digits") - 3L)}.}
@@ -16,8 +16,8 @@
 \item{...}{other arguments.}
 }
 \description{
-\code{print.summary.feglm} is a generic function which displays summary statistics from objects
-returned by \code{summary.feglm}.
+\code{\link{print.summary.feglm}} is a generic function which displays summary statistics from 
+objects returned by \code{\link{summary.feglm}}.
 }
 \seealso{
 \code{\link{feglm}}
