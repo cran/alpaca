@@ -3,7 +3,7 @@
 #  library(haven)
 #  library(data.table)
 #  cudata <- read_dta("dataaxj1.dta")
-#  cudata <- as.data.table(cudata)
+#  setDT(cudata)
 #  
 #  # Subsetting relevant variables
 #  var.nms <- c("exp1to2", "custrict11", "ldist", "comlang", "border", "regional",

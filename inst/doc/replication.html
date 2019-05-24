@@ -315,7 +315,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(haven)</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(data.table)</a>
 <a class="sourceLine" id="cb1-4" data-line-number="4">cudata &lt;-<span class="st"> </span><span class="kw">read_dta</span>(<span class="st">&quot;dataaxj1.dta&quot;</span>)</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5">cudata &lt;-<span class="st"> </span><span class="kw">as.data.table</span>(cudata)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">setDT</span>(cudata)</a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co"># Subsetting relevant variables</span></a>
 <a class="sourceLine" id="cb1-8" data-line-number="8">var.nms &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;exp1to2&quot;</span>, <span class="st">&quot;custrict11&quot;</span>, <span class="st">&quot;ldist&quot;</span>, <span class="st">&quot;comlang&quot;</span>, <span class="st">&quot;border&quot;</span>, <span class="st">&quot;regional&quot;</span>,</a>
